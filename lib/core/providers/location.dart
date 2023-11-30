@@ -1,3 +1,58 @@
+// import 'dart:async';
+//
+// import 'package:campus_mobile_experimental/app_constants.dart';
+// import 'package:campus_mobile_experimental/core/models/location.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:geolocator/geolocator.dart';
+//
+// class LocationDataProvider extends ChangeNotifier {
+//   bool _permission = false;
+//   String? error;
+//   late LocationPermission locationPermission;
+//   final LocationSettings locationSettings = LocationSettings(
+//     accuracy: LocationAccuracy.high,
+//     distanceFilter: 100,
+//   );
+//
+//   StreamController<Coordinates> _locationController =
+//       StreamController<Coordinates>.broadcast();
+//   Stream<Coordinates> get locationStream => _locationController.stream;
+//
+//   LocationDataProvider() {
+//     locationStream;
+//     _init();
+//   }
+//
+//   _init() async {
+//     /// check to see if gps service is enabled on device
+//     bool serviceStatus = await Geolocator.isLocationServiceEnabled();
+//     if (!serviceStatus) {
+//       /// check to see if permission has been granted to the app
+//       locationPermission = await Geolocator.requestPermission();
+//       if (_permission) {
+//         _enableListener();
+//       }
+//     } else {
+//       _permission = true;
+//       _enableListener();
+//     }
+//   }
+//
+//   _enableListener() {
+//     if (_permission) {
+//       Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+//               (Position? position) {
+//                 if (position == null) {
+//                   error = ErrorConstants.locationFailed;
+//                 }
+//                 _locationController.add(Coordinates(
+//                   lat: position?.latitude,
+//                   lon: position?.longitude
+//                 ));
+//           });
+//     }
+//   }
+// }
 import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_constants.dart';
@@ -5,51 +60,50 @@ import 'package:campus_mobile_experimental/core/models/location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 
-class LocationDataProvider extends ChangeNotifier {
-  bool _permission = false;
-  String? error;
-  late LocationPermission locationPermission;
-  final LocationSettings locationSettings = LocationSettings(
+class LocationDataHook {
+  static const LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
 
-  StreamController<Coordinates> _locationController =
-      StreamController<Coordinates>.broadcast();
+  final _permission = ValueNotifier<bool>(false);
+  final _error = ValueNotifier<String?>(null);
+  final _locationController = StreamController<Coordinates>.broadcast();
+
   Stream<Coordinates> get locationStream => _locationController.stream;
 
-  LocationDataProvider() {
-    locationStream;
+  LocationDataHook() {
     _init();
   }
 
-  _init() async {
+  void _init() async {
     /// check to see if gps service is enabled on device
+    debugPrint("USING_____LOCATION-----HOOK");
     bool serviceStatus = await Geolocator.isLocationServiceEnabled();
     if (!serviceStatus) {
       /// check to see if permission has been granted to the app
-      locationPermission = await Geolocator.requestPermission();
-      if (_permission) {
+      if (_permission.value) {
         _enableListener();
       }
     } else {
-      _permission = true;
+      _permission.value = true;
       _enableListener();
     }
   }
 
-  _enableListener() {
-    if (_permission) {
-      Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-              (Position? position) {
-                if (position == null) {
-                  error = ErrorConstants.locationFailed;
-                }
-                _locationController.add(Coordinates(
-                  lat: position?.latitude,
-                  lon: position?.longitude
-                ));
-          });
+  void _enableListener() {
+    if (_permission.value) {
+      Geolocator.getPositionStream(locationSettings: locationSettings)
+          .listen((Position? position) {
+        if (position == null) {
+          _error.value = ErrorConstants.locationFailed;
+        } else {
+          _locationController.add(Coordinates(
+            lat: position.latitude,
+            lon: position.longitude,
+          ));
+        }
+      });
     }
   }
 }

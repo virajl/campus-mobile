@@ -20,12 +20,13 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+
 List<SingleChildWidget> providers = [
   ...independentServices,
   ...dependentServices,
   ...uiConsumableProviders,
 ];
-LocationDataProvider? locationProvider;
+LocationDataHook? locationDataHook;
 final FirebaseAnalytics analytics = FirebaseAnalytics();
 final FirebaseAnalyticsObserver observer =
     FirebaseAnalyticsObserver(analytics: analytics);
@@ -47,8 +48,8 @@ List<SingleChildWidget> independentServices = [
   StreamProvider<Coordinates>(
     initialData: Coordinates(),
     create: (_) {
-      locationProvider = LocationDataProvider();
-      return locationProvider!.locationStream;
+      locationDataHook = LocationDataHook();
+      return locationDataHook!.locationStream;
     },
     lazy: false,
   ),

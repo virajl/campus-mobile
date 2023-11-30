@@ -29,7 +29,7 @@ class ShuttleDataProvider extends ChangeNotifier {
   double closestDistance = 10000000;
   Map<int?, ShuttleStopModel>? fetchedStops;
   Map<int?, List<ArrivingShuttle>>? arrivalsToRender;
-  late LocationDataProvider _locationDataProvider;
+  // late LocationDataProvider _locationDataProvider;
   Coordinates? _userCoords;
 
   init() {
