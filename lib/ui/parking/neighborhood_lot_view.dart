@@ -1,6 +1,9 @@
+import 'package:campus_mobile_experimental/core/GetXcontrollers/parking.dart';
 import 'package:campus_mobile_experimental/core/providers/parking.dart';
 import 'package:campus_mobile_experimental/ui/common/container_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 class NeighborhoodLotsView extends StatefulWidget {
@@ -11,12 +14,12 @@ class NeighborhoodLotsView extends StatefulWidget {
 }
 
 class _NeighborhoodLotsViewState extends State<NeighborhoodLotsView> {
-  late ParkingDataProvider parkingDataProvider;
+  final ParkingDataController _parkingDataController = Get.find<ParkingDataController>();
   bool showedScaffold = false;
 
   @override
   Widget build(BuildContext context) {
-    parkingDataProvider = Provider.of<ParkingDataProvider>(context);
+    // parkingDataProvider = Provider.of<ParkingDataProvider>(context);
     return ContainerView(
       child: lotsList(context),
     );
@@ -42,14 +45,14 @@ class _NeighborhoodLotsViewState extends State<NeighborhoodLotsView> {
     ));
 
     int selectedLots = 0;
-    parkingDataProvider.parkingViewState!.forEach((key, value) {
+    _parkingDataController.parkingViewState!.forEach((key, value) {
       if (value == true) {
         selectedLots++;
       }
     });
     // loops through and adds buttons for the user to click on
     for (int i = 0; i < arguments.length; i++) {
-      bool lotState = parkingDataProvider.parkingViewState![arguments[i]]!;
+      bool lotState = _parkingDataController.parkingViewState![arguments[i]]!;
       list.add(
         ListTile(
           title: Padding(
@@ -73,7 +76,7 @@ class _NeighborhoodLotsViewState extends State<NeighborhoodLotsView> {
               ));
               showedScaffold = !showedScaffold;
             }
-            parkingDataProvider.toggleLot(arguments[i], selectedLots);
+            _parkingDataController.toggleLot(arguments[i], selectedLots);
           },
         ),
       );

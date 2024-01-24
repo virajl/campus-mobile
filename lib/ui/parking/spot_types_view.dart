@@ -4,6 +4,9 @@ import 'package:campus_mobile_experimental/ui/common/HexColor.dart';
 import 'package:campus_mobile_experimental/ui/common/container_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+
+import '../../core/GetXcontrollers/parking.dart';
 
 class SpotTypesView extends StatefulWidget {
   @override
@@ -11,10 +14,11 @@ class SpotTypesView extends StatefulWidget {
 }
 
 class _SpotTypesViewState extends State<SpotTypesView> {
-  late ParkingDataProvider spotTypesDataProvider;
+  // late ParkingDataProvider spotTypesDataProvider;
+  final ParkingDataController _parkingDataController = Get.find<ParkingDataController>();
   @override
   Widget build(BuildContext context) {
-    spotTypesDataProvider = Provider.of<ParkingDataProvider>(context);
+    // spotTypesDataProvider = Provider.of<ParkingDataProvider>(context);
     return ContainerView(
       child: createListWidget(context),
     );
@@ -27,8 +31,8 @@ class _SpotTypesViewState extends State<SpotTypesView> {
   List<Widget> createList(BuildContext context) {
     int selectedSpots = 0;
     List<Widget> list = [];
-    for (Spot data in spotTypesDataProvider.spotTypeModel!.spots!) {
-      if (Provider.of<ParkingDataProvider>(context)
+    for (Spot data in _parkingDataController.spotTypeModel!.spots!) {
+      if (_parkingDataController
               .spotTypesState![data.spotKey]! ==
           true) {
         selectedSpots++;
@@ -56,10 +60,10 @@ class _SpotTypesViewState extends State<SpotTypesView> {
                       ))),
         title: Text(data.name!),
         trailing: Switch(
-          value: Provider.of<ParkingDataProvider>(context)
+          value: _parkingDataController
               .spotTypesState![data.spotKey]!,
           onChanged: (_) {
-            spotTypesDataProvider.toggleSpotSelection(
+            _parkingDataController.toggleSpotSelection(
                 data.spotKey, selectedSpots);
           },
           // activeColor: Theme.of(context).buttonColor,

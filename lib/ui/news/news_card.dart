@@ -49,14 +49,14 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NewsController newsProvider = Get.find<NewsController>();
+    final NewsController newsController = Get.find<NewsController>();
     return CardContainer(
       active: Provider.of<CardsDataProvider>(context).cardStates![cardId],
       hide: () => Provider.of<CardsDataProvider>(context, listen: false).toggleCard(cardId),
-      reload: () => newsProvider.fetchNews(),
-      isLoading: newsProvider.isLoading.value,
+      reload: () => newsController.fetchNews(),
+      isLoading: newsController.isLoading.value,
       titleText: CardTitleConstants.titleMap[cardId],
-      errorText: newsProvider.error.value,
+      errorText: newsController.error.value,
       child: () => buildNewsCard(),
       actionButtons: buildActionButtons(context),
     );

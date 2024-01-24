@@ -1,4 +1,5 @@
 import 'package:campus_mobile_experimental/app_constants.dart';
+import 'package:campus_mobile_experimental/core/GetXcontrollers/parking.dart';
 import 'package:campus_mobile_experimental/core/models/parking.dart';
 import 'package:campus_mobile_experimental/core/providers/cards.dart';
 import 'package:campus_mobile_experimental/core/providers/parking.dart';
@@ -6,7 +7,9 @@ import 'package:campus_mobile_experimental/ui/common/card_container.dart';
 import 'package:campus_mobile_experimental/ui/common/dots_indicator.dart';
 import 'package:campus_mobile_experimental/ui/parking/circular_parking_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import '../../core/providers/user.dart';
 
 class ParkingCard extends StatefulWidget {
   @override
@@ -14,15 +17,17 @@ class ParkingCard extends StatefulWidget {
 }
 
 class _ParkingCardState extends State<ParkingCard> {
-  late ParkingDataProvider _parkingDataProvider;
+  final ParkingDataController parkingController = Get.find<ParkingDataController>();
   final _controller = new PageController();
   String cardId = 'parking';
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _parkingDataProvider = Provider.of<ParkingDataProvider>(context);
+  void initState() {
+    super.initState();
+      final userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
+      parkingController.setUserDataProvider(userDataProvider);
   }
+  @override
 
   // ignore: must_call_super
   Widget build(BuildContext context) {
@@ -33,24 +38,24 @@ class _ParkingCardState extends State<ParkingCard> {
           {Navigator.pushNamed(context, RoutePaths.SpotTypesView)}
     };
     //super.build(context);
-    return CardContainer(
+    return Obx(() => CardContainer(
       titleText: CardTitleConstants.titleMap[cardId],
-      isLoading: _parkingDataProvider.isLoading,
-      reload: () => {_parkingDataProvider.fetchParkingData()},
-      errorText: _parkingDataProvider.error,
+      isLoading: parkingController.isLoading,
+      reload: () => {parkingController.fetchParkingData()},
+      errorText: parkingController.error,
       child: () => buildParkingCard(context),
       active: Provider.of<CardsDataProvider>(context).cardStates![cardId],
       hide: () => Provider.of<CardsDataProvider>(context, listen: false)
           .toggleCard(cardId),
       actionButtons: buildActionButtons(),
-    );
+    ));
   }
 
   Widget buildParkingCard(BuildContext context) {
     try {
       List<Widget> selectedLotsViews = [];
-      for (ParkingModel model in _parkingDataProvider.parkingModels) {
-        if (_parkingDataProvider.parkingViewState![model.locationName] ==
+      for (ParkingModel model in parkingController.parkingModels) {
+        if (parkingController.parkingViewState![model.locationName] ==
             true) {
           selectedLotsViews.add(CircularParkingIndicators(model: model));
         }

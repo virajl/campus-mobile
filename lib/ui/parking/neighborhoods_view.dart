@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:campus_mobile_experimental/ui/common/container_view.dart';
 import 'package:campus_mobile_experimental/app_constants.dart';
 import 'package:campus_mobile_experimental/core/providers/parking.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/GetXcontrollers/parking.dart';
 
 class NeighborhoodsView extends StatefulWidget {
   _NeighborhoodsViewState createState() => _NeighborhoodsViewState();
@@ -10,7 +14,7 @@ class NeighborhoodsView extends StatefulWidget {
 
 class _NeighborhoodsViewState extends State<NeighborhoodsView> {
   List<bool> selected = List.filled(5, false);
-
+  final ParkingDataController _parkingDataController = Get.find<ParkingDataController>();
   @override
   Widget build(BuildContext context) => ContainerView(
         child: neighborhoodsList(context),
@@ -19,7 +23,7 @@ class _NeighborhoodsViewState extends State<NeighborhoodsView> {
   // builds the listview that will be put into ContainerView
   Widget neighborhoodsList(BuildContext context) {
     Map<String, List<String>?>? neighborhoods =
-        Provider.of<ParkingDataProvider>(context).getParkingMap();
+        _parkingDataController.getParkingMap();
     // creates a list that will hold the list of building names
     List<Widget> list = [];
     list.add(ListTile(

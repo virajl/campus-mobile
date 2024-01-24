@@ -1,49 +1,51 @@
+import 'package:campus_mobile_experimental/core/GetXcontrollers/parking.dart';
 import 'package:campus_mobile_experimental/core/models/parking.dart';
 import 'package:campus_mobile_experimental/core/models/spot_types.dart';
 import 'package:campus_mobile_experimental/core/providers/parking.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class CircularParkingIndicators extends StatelessWidget {
-  const CircularParkingIndicators({
+   CircularParkingIndicators({
     Key? key,
     required this.model,
   }) : super(key: key);
 
+  final ParkingDataController _parkingDataController = Get.find<ParkingDataController>();
   final ParkingModel model;
-
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         buildLocationTitle(),
-        buildLocationContext(context),
-        buildSpotsAvailableText(context),
+        buildLocationContext(),
+        buildSpotsAvailableText(),
         buildHistoricInfo(),
-        buildAllParkingAvailability(context),
+        buildAllParkingAvailability(),
       ],
     );
   }
 
-  Widget buildAllParkingAvailability(BuildContext context) {
+  Widget buildAllParkingAvailability() {
     List<Widget> listOfCircularParkingInfo = [];
 
     List<String> selectedSpots = [];
 
-    Provider.of<ParkingDataProvider>(context)
-        .spotTypesState!
-        .forEach((key, value) {
+    _parkingDataController.spotTypesState!.forEach((key, value) {
       if (value && selectedSpots.length < 4) {
         selectedSpots.add(key!);
       }
     });
+
     for (String spot in selectedSpots) {
       if (model.availability != null) {
         listOfCircularParkingInfo.add(buildCircularParkingInfo(
-            Provider.of<ParkingDataProvider>(context).spotTypeMap![spot],
-            model.availability![spot],
-            context));
+            _parkingDataController.spotTypeMap![spot],
+            model.availability![spot]));
       }
     }
     return Expanded(
@@ -55,7 +57,7 @@ class CircularParkingIndicators extends StatelessWidget {
   }
 
   Widget buildCircularParkingInfo(
-      Spot? spotType, dynamic locationData, BuildContext context) {
+      Spot? spotType, dynamic locationData) {
     int open;
     int total;
     if (locationData != null) {
@@ -202,7 +204,7 @@ class CircularParkingIndicators extends StatelessWidget {
     return Colors.red;
   }
 
-  Widget buildLocationContext(BuildContext context) {
+  Widget buildLocationContext() {
     return Center(
       child: Text(model.locationContext ?? "",
           style: TextStyle(
@@ -243,14 +245,14 @@ class CircularParkingIndicators extends StatelessWidget {
     }
   }
 
-  Widget buildSpotsAvailableText(BuildContext context) {
+  Widget buildSpotsAvailableText() {
     return Center(
       child: Text("~" +
-          Provider.of<ParkingDataProvider>(context)
+          _parkingDataController
               .getApproxNumOfOpenSpots(model.locationName)["Open"]
               .toString() +
           " of " +
-          Provider.of<ParkingDataProvider>(context)
+          _parkingDataController
               .getApproxNumOfOpenSpots(model.locationName)["Total"]
               .toString() +
           " Spots Available"),

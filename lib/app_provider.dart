@@ -29,6 +29,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+
 List<SingleChildWidget> providers = [
   ...independentServices,
   ...dependentServices,
@@ -258,15 +259,15 @@ List<SingleChildWidget> dependentServices = [
     speedTestProvider.userDataProvider = userDataProvider;
     return speedTestProvider;
   }),
-  ChangeNotifierProxyProvider<UserDataProvider, ParkingDataProvider>(
-      create: (_) {
-    var parkingDataProvider = ParkingDataProvider();
-    return parkingDataProvider;
-  }, update: (_, userDataProvider, parkingDataProvider) {
-    parkingDataProvider!.userDataProvider = userDataProvider;
-    parkingDataProvider.fetchParkingData();
-    return parkingDataProvider;
-  }),
+  // ChangeNotifierProxyProvider<UserDataProvider, ParkingDataProvider>(
+  //     create: (_) {
+  //   var parkingDataProvider = ParkingDataProvider();
+  //   return parkingDataProvider;
+  // }, update: (_, userDataProvider, parkingDataProvider) {
+  //   parkingDataProvider!.userDataProvider = userDataProvider;
+  //   parkingDataProvider.fetchParkingData();
+  //   return parkingDataProvider;
+  // }),
   ChangeNotifierProxyProvider<UserDataProvider, MessagesDataProvider>(
     create: (_) {
       var messageDataProvider = MessagesDataProvider();

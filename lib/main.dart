@@ -20,6 +20,7 @@ import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
+import 'core/GetXcontrollers/parking.dart';
 import 'core/providers/news.dart';
 
 late bool showOnboardingScreen;
@@ -115,6 +116,7 @@ class CampusMobile extends StatelessWidget {
       unselectedWidgetColor: darkAccentColor,
     );
     Get.put(NewsController());
+    Get.put(ParkingDataController());
 
     return MultiProvider(
       providers: providers,
