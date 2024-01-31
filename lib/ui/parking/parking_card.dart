@@ -17,20 +17,25 @@ class ParkingCard extends StatefulWidget {
 }
 
 class _ParkingCardState extends State<ParkingCard> {
+
   final ParkingDataController parkingController = Get.find<ParkingDataController>();
   final _controller = new PageController();
   String cardId = 'parking';
 
+
   @override
   void initState() {
     super.initState();
-      final userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
-      parkingController.setUserDataProvider(userDataProvider);
+    print("builfingFirst");
+    final userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
+    parkingController.setUserDataProvider(userDataProvider);
   }
-  @override
 
+
+  @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
+
     Map<String, Function> menuOption = {
       "Manage Lots": (context) =>
           {Navigator.pushNamed(context, RoutePaths.ManageParkingView)},
