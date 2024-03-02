@@ -1,9 +1,10 @@
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/notifications_IAmGoing.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FreeFoodService {
   final String baseEndpoint =
-      'https://api-qa.ucsd.edu:8243/campusevents/1.0.0/';
+      dotenv.env['notificationsGoingEndpoint']!;
 
   bool _isLoading = false;
   DateTime? _lastUpdated;

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/news.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NewsService {
   NewsService();
@@ -15,7 +16,7 @@ class NewsService {
   };
 
   final String endpoint =
-      "https://api-qa.ucsd.edu:8243/campusnews/1.0.0/ucsdnewsaggregator";
+      dotenv.env['newsEndpoint']!;
 
   NewsModel _newsModels = NewsModel();
 

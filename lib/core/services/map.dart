@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/map.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapSearchService {
   bool _isLoading = false;
@@ -10,7 +11,7 @@ class MapSearchService {
   List<MapSearchModel> _results = [];
   final NetworkHelper _networkHelper = NetworkHelper();
   final String baseEndpoint =
-      "https://0dakeo6qfi.execute-api.us-west-2.amazonaws.com/qa/v2/map/search";
+      dotenv.env['mapBaseEndpoint']!;
 
   Future<bool> fetchLocations(String location) async {
     _error = null;

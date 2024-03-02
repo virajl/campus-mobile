@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/topics.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NotificationService {
   final NetworkHelper _networkHelper = NetworkHelper();
-  final String _endpoint = 'https://api-qa.ucsd.edu:8243/mp-registration/1.0.0';
-  final String _topicsEndpoint =
-      'https://mobile.ucsd.edu/replatform/v1/qa/topics.json';
+  final String _endpoint = dotenv.env['notificationsEndpoint']!;
+  final String _topicsEndpoint = dotenv.env['topicsEndpoint']!;
   bool _isLoading = false;
   DateTime? _lastUpdated;
   String? _error;

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/notices.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NoticesService {
   bool _isLoading = false;
@@ -10,7 +11,7 @@ class NoticesService {
 
   final NetworkHelper _networkHelper = NetworkHelper();
   final String endpoint =
-      'https://mobile.ucsd.edu/replatform/v1/qa/notices-v2.json';
+      dotenv.env['noticesEndpoint']!;
 
   List<NoticesModel> _noticesModel = [];
 

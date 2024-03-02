@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/spot_types.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SpotTypesService {
   SpotTypesService() {
@@ -18,7 +19,7 @@ class SpotTypesService {
   SpotTypeModel _spotTypeModel = SpotTypeModel();
 
   final String endpoint =
-      "https://mobile.ucsd.edu/replatform/v1/qa/integrations/parking/v1.2/spot_types.json";
+      dotenv.env['spotEndpoint']!;
   Future<bool> fetchSpotTypesData() async {
     _error = null;
     _isLoading = true;

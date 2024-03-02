@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/employee_id.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EmployeeIdService {
   final String myEmployeeProfileApiUrl =
-      'https://api-qa.ucsd.edu:8243/staff/my/v1/profile';
+      dotenv.env['myEmployeeProfileApiUrl']!;
 
   bool _isLoading = false;
   DateTime? _lastUpdated;

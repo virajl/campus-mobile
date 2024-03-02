@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/shuttle_arrival.dart';
 import 'package:campus_mobile_experimental/core/models/shuttle_stop.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ShuttleService {
   ShuttleService();
@@ -23,7 +24,7 @@ class ShuttleService {
         "Basic djJlNEpYa0NJUHZ5akFWT0VRXzRqZmZUdDkwYTp2emNBZGFzZWpmaWZiUDc2VUJjNDNNVDExclVh"
   };
 
-  final shuttleEndpoint = "https://api-qa.ucsd.edu:8243/shuttles/v1.0.0/stops";
+  final shuttleEndpoint = dotenv.env['shuttleEndpoint']!;
 
   Future<bool> fetchData() async {
     _error = null;

@@ -5,6 +5,7 @@ publish_to: none
 environment:
   sdk: ">=2.12.0 <3.0.0"
 dependencies:
+  flutter_dotenv: 5.0.2
   barcode_widget: 2.0.3
   connectivity: 3.0.6
   device_info: 2.0.2
@@ -63,3 +64,4 @@ flutter:
   assets:
     - assets/images/
     - assets/public_key.txt
+    - .env

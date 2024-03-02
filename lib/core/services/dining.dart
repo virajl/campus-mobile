@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/dining.dart';
 import 'package:campus_mobile_experimental/core/models/dining_menu.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DiningService {
   DiningService() {
@@ -19,7 +20,7 @@ class DiningService {
   final Map<String, String> headers = {
     "accept": "application/json",
   };
-   String baseEndpoint = "https://api-qa.ucsd.edu:8243/dining/v4.0.0";
+   String baseEndpoint = dotenv.env['baseDiningEndpoint']!;
 
   Future<bool> fetchData() async {
     _error = null;
@@ -75,7 +76,7 @@ class DiningService {
   }
 
   Future<bool> getNewToken() async {
-    final String tokenEndpoint = "https://api-qa.ucsd.edu:8243/token";
+    final String tokenEndpoint = dotenv.env['tokenEndpoint']!;
     final Map<String, String> tokenHeaders = {
       "content-type": 'application/x-www-form-urlencoded',
       "Authorization":

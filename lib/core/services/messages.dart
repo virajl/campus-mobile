@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/notifications.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MessageService {
   final String myMessagesApiUrl =
-      'https://api-qa.ucsd.edu:8243/mp-mymessages/1.0.0/messages?start=';
+      dotenv.env['myMessagesApiUrl']!;
   final String topicsApiUrl =
-      'https://m00xwea7ka.execute-api.us-west-2.amazonaws.com/qa/topics?';
+      dotenv.env['topicsApiUrl']!;
 
   bool _isLoading = false;
   DateTime? _lastUpdated;

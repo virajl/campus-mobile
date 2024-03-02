@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/cards.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CardsService {
   bool _isLoading = false;
@@ -24,7 +25,7 @@ class CardsService {
     /// API Manager Service
     try {
       String cardListEndpoint =
-          "https://api-qa.ucsd.edu:8243/mobilecardsservice/v1.0.0/mobilecardslist?version=10&ucsdaffiliation=" +
+          dotenv.env['cardListEndpoint']! +
               ucsdAffiliation;
       String _response =
           await _networkHelper.authorizedFetch(cardListEndpoint, headers);
@@ -44,7 +45,7 @@ class CardsService {
   }
 
   Future<bool> getNewToken() async {
-    final String tokenEndpoint = "https://api-qa.ucsd.edu:8243/token";
+    final String tokenEndpoint = dotenv.env['tokenEndpoint']!;
     final Map<String, String> tokenHeaders = {
       "content-type": 'application/x-www-form-urlencoded',
       "Authorization":

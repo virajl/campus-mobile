@@ -10,6 +10,7 @@ import 'package:campus_mobile_experimental/core/models/user_profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -26,6 +27,13 @@ bool isFirstRunFlag = false;
 bool executedInitialDeeplinkQuery = false;
 
 void main() async {
+  print("Loading .env file");
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print("Failed to load .env file: $e");
+  }
+  // await dotenv.load(fileName: "lib/.env");
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
@@ -33,7 +41,6 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   AndroidMapRenderer mapRenderer = AndroidMapRenderer.platformDefault;
   final GoogleMapsFlutterPlatform mapsImplementation =
       GoogleMapsFlutterPlatform.instance;

@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/events.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EventsService {
-  final String endpoint =
-      'https://hmczfnmm84.execute-api.us-west-2.amazonaws.com/qa/v2/events/student';
+  final String endpoint = dotenv.env['eventsEndpoint']!;
 
   bool _isLoading = false;
   DateTime? _lastUpdated;
@@ -23,6 +23,7 @@ class EventsService {
     _isLoading = true;
     try {
       /// fetch data
+      print(endpoint);
       String _response = await _networkHelper.fetchData(endpoint);
 
       /// parse data

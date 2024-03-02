@@ -1,5 +1,6 @@
 import 'package:campus_mobile_experimental/app_networking.dart';
 import 'package:campus_mobile_experimental/core/models/authentication.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthenticationService {
   AuthenticationService();
@@ -12,9 +13,8 @@ class AuthenticationService {
 
   final NetworkHelper _networkHelper = NetworkHelper();
 
-  final String authServiceApiUrl =
-      "https://uokdbiyx00.execute-api.us-west-2.amazonaws.com/qa/v1.1/access-profile";
-  final String authServiceApiKey = 'uRgcQKJKMW4WzC2scgUXUjbE7e8TQJN7JsfjVBK6';
+  final String authServiceApiUrl = dotenv.env['authServiceApiUrl']!;
+  final String authServiceApiKey = dotenv.env['authServiceApiKey']!;
 
   Future<bool> silentLogin(String base64EncodedWithEncryptedPassword) async {
     _error = null;
